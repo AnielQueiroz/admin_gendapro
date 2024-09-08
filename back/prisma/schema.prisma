@@ -86,6 +86,7 @@ model Professional {
   id             String         @id @default(uuid())
   name           String
   email          String         @unique
+  password       String
   phone          String         @unique
   barbershopId   String
   createdAt      DateTime       @default(now())
@@ -93,6 +94,24 @@ model Professional {
   availabilities Availability[]
   bookings       Booking[]
   barbershop     Barbershop     @relation(fields: [barbershopId], references: [id])
+  role           Role           @relation(fields: [roleId], references: [id])
+  roleId         String
+  permissions    Permission[]   @relation("ProfessionalPermissions")
+}
+
+model Role {
+  id             String          @id @default(uuid())
+  name           String          @unique
+  professionals  Professional[]
+  permissions    Permission[]    @relation("RolePermissions")
+}
+
+model Permission {
+  id             String           @id @default(uuid())
+  name           String           @unique
+  description    String
+  roles          Role[]           @relation("RolePermissions")
+  professionals  Professional[]   @relation("ProfessionalPermissions")
 }
 
 model Availability {
