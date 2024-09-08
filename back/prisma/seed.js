@@ -1,4 +1,4 @@
-const { db } = require("../path-to-your-db-file"); // Importar o prisma já exportado
+const { db } = require("../src/lib/prisma");
 
 async function main() {
   // Criar permissões
@@ -53,7 +53,7 @@ async function main() {
       email: "admin@barbearia.com",
       password: "senhaSegura123", // Idealmente use hashing para senhas
       phone: "123456789",
-      barbershopId: "some-barbershop-id", // Coloque o ID correto da barbearia
+      barbershopId: "2196d4b3-4674-4a1e-ac57-2fddc54a76e3", // Coloque o ID correto da barbearia
       role: {
         connect: { name: "Admin" }, // Conectar ao role Admin
       },
