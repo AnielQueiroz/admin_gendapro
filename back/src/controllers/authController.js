@@ -2,6 +2,8 @@ const { db } = require('../lib/prisma');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 // Função para verificar a senha fornecida
 async function checkPassword(providedPassword, storedHash) {
     try {
@@ -34,7 +36,8 @@ const login = async (req, res) => {
                 name: true,
                 email: true,
                 password: true,
-                barbershopId: true
+                barbershopId: true,
+                roleId: true
             }
         });
 
@@ -48,10 +51,22 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Senha incorreta!' });
         }
 
+        // Payload para o JWT
+        const payload = {
+            id: professional.id,
+            barbershopId: professional.barbershopId,
+            roleId: professional.roleId
+        }
+
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
+
+        // Adicionar o token ao cabeçalho da resposta
+        // res.setHeader('Authorization', `Bearer ${token}`)
+
         // Excluir a senha da resposta
         const { password: _, ...responseProfessional } = professional;
 
-        return res.json({ message: 'Login bem-sucedido!', responseProfessional });
+        return res.json({ message: 'Login bem-sucedido!', token, professional: responseProfessional });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Erro interno do servidor', error: error.message });
