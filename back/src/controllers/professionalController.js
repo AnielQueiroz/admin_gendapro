@@ -88,6 +88,41 @@ const listProfessionals = async (req, res) => {
     }
 }
 
+const listProfessionalById = async (req, res) => {
+    const { professional } = req.params;
+    const { establishmentId } = req.body;
+
+    if (!establishmentId) {
+        return res.status(400).json({ message: 'ID do estabelecimento não fornecido!' });
+    }
+
+    if (!professional) {
+        return res.status(400).json({ message: 'ID do profissional não fornecido!' });
+    }
+
+    try {
+        const professional = await db.professional.findUnique({
+            where: {
+                id: professional,
+                barbershopId: establishmentId
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                barbershopId: true,
+                roleId: true,
+                role: true
+            }
+        })
+
+        return res.status(200).json({ professional });
+    } catch (error) {
+        return res.status(400).json({ message: 'Erro ao listar os profissionais', error: error.message });
+    }
+}
+
 // Controller para associar um role a um profissional
 const assignRole = async (req, res) => {
     const { professionalId, roleId } = req.body;
@@ -108,4 +143,4 @@ const assignRole = async (req, res) => {
     }
 }
 
-module.exports = { assignRole, createProfessional, listProfessionals };
+module.exports = { assignRole, createProfessional, listProfessionals, listProfessionalById };

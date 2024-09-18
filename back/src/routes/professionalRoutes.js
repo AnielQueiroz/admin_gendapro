@@ -1,5 +1,5 @@
 const express = require('express');
-const { assignRole, createProfessional, listProfessionals } = require('../controllers/professionalController');
+const { assignRole, createProfessional, listProfessionals, listProfessionalById } = require('../controllers/professionalController');
 const { checkPermission } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
@@ -13,6 +13,11 @@ router.post("/assign-role", checkPermission('assign_role'), assignRole);
 
 // Rota para listar todos os professionais
 router.get('/list', listProfessionals);
+
+// Rota para listar um colaborador por ID
+router.get('/list/:professional', listProfessionalById);
+
+module.exports = router;
 
 
 module.exports = router;
