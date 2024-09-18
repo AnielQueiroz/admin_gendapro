@@ -1,4 +1,8 @@
 const { db } = require('../lib/prisma');
+const bcrypt = require('bcrypt');
+require('dotenv').config();
+
+const saltRounds = parseInt(process.env.SALT_ROUNDS)
 
 // Controller para criar um novo profissional
 const createProfessional = async (req, res) => {
@@ -12,7 +16,18 @@ const createProfessional = async (req, res) => {
         return res.status(400).json({ message: 'As senhas precisam ser iguais!' });
     }
 
+    const estabelecimento = await db.barbershop.findUnique({
+        where: {
+            id: establishmentId
+        }
+    })
+
+    if (!estabelecimento) {
+        return res.status(400).json({ message: 'Estabelecimento não encontrado!' });
+    }
+
     // TODO: Criptar a senha
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Checar se existe um profissional com o mesmo email
     const professionalExists = await db.professional.findUnique({
@@ -30,7 +45,7 @@ const createProfessional = async (req, res) => {
             data: {
                 name,
                 email,
-                password,
+                password: hashedPassword,
                 phone,
                 barbershopId: establishmentId,
                 roleId
@@ -40,6 +55,36 @@ const createProfessional = async (req, res) => {
         return res.status(201).json({ message: 'Profissional criado com sucesso!', professional });
     } catch (error) {
         return res.status(400).json({ message: 'Erro ao criar o profissional', error: error.message });
+    }
+}
+
+// Controller para listar todos os professionais de um estabelecimento
+const listProfessionals = async (req, res) => {
+    const { establishmentId } = req.body;
+
+    if (!establishmentId) {
+        return res.status(400).json({ message: 'ID do estabelecimento não fornecido!' });
+    }
+
+    try {
+        const professionals = await db.professional.findMany({
+            where: {
+                barbershopId: establishmentId
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                barbershopId: true,
+                roleId: true,
+                role: true
+            }
+        })
+
+        return res.status(200).json({ professionals });
+    } catch (error) {
+        return res.status(400).json({ message: 'Erro ao listar os profissionais', error: error.message });
     }
 }
 
@@ -63,4 +108,4 @@ const assignRole = async (req, res) => {
     }
 }
 
-module.exports = { assignRole, createProfessional };
+module.exports = { assignRole, createProfessional, listProfessionals };
