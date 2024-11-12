@@ -13,9 +13,9 @@ export const protectedRoutes = [
     {
         path: "/home",
         element: (
-            // <ProtectedRoute>
+            <ProtectedRoute>
                 <Home />
-            // </ProtectedRoute>
+            </ProtectedRoute>
         ),
     },
 ];
