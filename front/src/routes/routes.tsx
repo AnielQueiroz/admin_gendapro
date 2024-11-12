@@ -1,5 +1,6 @@
 import LoginScreen from "@/components/login-screen";
 import ProtectedRoute from "@/middlewares/protect-route";
+import Home from "@/pages/Home";
 
 export const publicRoutes = [
     { 
@@ -12,9 +13,9 @@ export const protectedRoutes = [
     {
         path: "/home",
         element: (
-            <ProtectedRoute>
-                <h1>Home</h1>
-            </ProtectedRoute>
+            // <ProtectedRoute>
+                <Home />
+            // </ProtectedRoute>
         ),
     },
 ];
