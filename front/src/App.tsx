@@ -1,16 +1,12 @@
-import { Provider } from "react-redux";
-import { store } from "./store/store";
-import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
+import AppProviders from "./providers/app-providers"; 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { protectedRoutes, publicRoutes } from "./routes/routes";
+import "./App.css";
 
 function App() {
   return (
-    <Provider store={store}>
+    <AppProviders>
       <Router>
-        <ToastContainer />
         <Routes>
           {/* Rotas públicas */}
           {publicRoutes.map((route, index) => (
@@ -23,7 +19,7 @@ function App() {
           ))}
         </Routes>
       </Router>
-    </Provider>
+    </AppProviders>
   );
 }
 

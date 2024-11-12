@@ -6,10 +6,10 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useDispatch } from "react-redux";
-import { loginService } from "@/services/authService";
-import { login } from "@/store/authSlice";
+import { loginService } from "@/features/auth/authService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { login } from "@/features/auth/authSlice";
 
 interface LoginFormData {
   email: string;
@@ -22,7 +22,7 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required("E-mail obrigatório"),
+    email: Yup.string().email("E-mail inválido").required("E-mail obrigatório"),
     password: Yup.string().required("Senha obrigatória"),
   });
 
