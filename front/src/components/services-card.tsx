@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { toast } from "react-toastify";
 import { Label } from "./ui/label";
 import * as Yup from "yup";
+import DeleteSomething from "./delete-something";
 
 interface Service {
     id: number;
@@ -42,7 +43,15 @@ const services: Service[] = [
 
 const ServicesCard = () => {
     const [openDialog, setOpenDialog] = useState(false);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedService, setSelectedService] = useState<Service | null>(null);
+    
+    // Estados para controlar os campos do form
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const serviceSchema = Yup.object().shape({
         name: Yup.string().required("O nome do serviço é obrigatório").min(3, "O nome do serviço deve ter no mínimo 3 caracteres"),
@@ -62,13 +71,6 @@ const ServicesCard = () => {
 
         return formattedValue;
     };
-
-    // Estados para controlar os campos do form
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const handleCreateNew = () => {
         setSelectedService(null);
@@ -90,8 +92,22 @@ const ServicesCard = () => {
         setOpenDialog(true);
     };
 
+    const handleCloseDeleteDialog = () => {
+        setDeleteDialogOpen(false);
+        setSelectedService(null);
+    };
+
     const handleDeleteClick = (service: Service) => {        
-        console.log("Deletar serviço:", service);
+        setSelectedService(service);
+        setDeleteDialogOpen(true);
+    }
+
+    const handleConfirmDelete = () => {
+        if (selectedService) {
+            console.log(selectedService);
+            toast.success(`${selectedService.name} deletado com sucesso`)
+            handleCloseDeleteDialog();
+        }
     }
 
     const handleSaveService = async (event: React.FormEvent) => {
@@ -217,6 +233,16 @@ const ServicesCard = () => {
                     </form>
                 </DialogContent>
             </Dialog>
+
+            {/* Modal de Exclusão */}
+            {selectedService && (
+                <DeleteSomething
+                    isOpen={isDeleteDialogOpen}
+                    onClose={handleCloseDeleteDialog}
+                    onConfirm={handleConfirmDelete}
+                    something={selectedService.name}
+                />
+            )}
         </div>
     )
 }
