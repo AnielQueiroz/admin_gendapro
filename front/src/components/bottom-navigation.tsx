@@ -5,7 +5,7 @@ const BottomNavigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 flex justify-around">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 flex justify-around lg:hidden">
       <button onClick={() => navigate("/home")} className="text-blue-600">
         <FiHome size={24} />
       </button>
