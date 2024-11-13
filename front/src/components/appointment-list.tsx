@@ -1,7 +1,7 @@
 const appointments = [
   { id: 1, clientName: "João Silva", time: "09:00", status: "Pendente" },
-  { id: 2, clientName: "Maria Oliveira", time: "10:30", status: "Concluído" },
-  { id: 3, clientName: "Pedro Santos", time: "11:00", status: "Pendente" },
+  { id: 2, clientName: "Pedro Santos", time: "11:00", status: "Pendente" },
+  { id: 3, clientName: "Maria Oliveira", time: "10:30", status: "Concluído" },
 ];
 
 const AppointmentList = () => {
