@@ -157,7 +157,7 @@ const ServicesCard = () => {
                             <p>{service.description}</p>
                             <p className="text-gray-600 mt-2 font-bold">{service.price}</p>
                         </CardContent>
-                        <CardFooter className="flex gap-2">
+                        <CardFooter className="flex gap-2 justify-end">
                             <Button title="Editar" onClick={() => handleEditClick(service)} variant="default">
                                 <FiEdit3 />
                             </Button>
@@ -227,9 +227,11 @@ const ServicesCard = () => {
                                 errorMessage={errors.imageUrl}
                             />
                         </div>
-                        <Button title="Salvar" onClick={handleSaveService} variant="default">
-                            {selectedService ? "Salvar" : "Criar"}
-                        </Button>
+                        <div className="flex justify-end">
+                            <Button title="Salvar" onClick={handleSaveService} variant="default">
+                                {selectedService ? "Salvar" : "Criar"}
+                            </Button>
+                        </div>
                     </form>
                 </DialogContent>
             </Dialog>
