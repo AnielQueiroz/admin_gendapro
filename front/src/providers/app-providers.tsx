@@ -10,7 +10,9 @@ interface Props {
 
 const AppProviders = ({ children }: Props) => (
     <Provider store={store}>
-        <ToastContainer />
+        <ToastContainer 
+            autoClose={3000}
+        />
         {children}
     </Provider>
 );

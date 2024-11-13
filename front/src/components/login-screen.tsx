@@ -26,11 +26,7 @@ const LoginScreen = () => {
     password: Yup.string().required("Senha obrigatória"),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -38,17 +34,26 @@ const LoginScreen = () => {
     setIsLoading(true);
 
     try {
-      const response = await loginService(data.email, data.password);
+      // const response = await loginService(data.email, data.password);
 
-      console.log(response);
+      // console.log(response);
 
-      if (!response.success) {
-        toast.error(response.data.message);
-        return;
-      }
+      // if (!response.success) {
+      //   toast.error(response.data.message);
+      //   return;
+      // }
+
+      const userData = {
+        name: "Aniel",
+        permissions: ["admin", "manage-users", "view-reports"],
+        token: 'token',
+      };
 
       // Armazenar o token no redux
-      dispatch(login({ email: data.email, token: response.data.token }));
+      dispatch(login(userData));
+
+      // Persistir os dados no localStorage
+      localStorage.setItem('auth', JSON.stringify(userData));
 
       toast.success("Login realizado com sucesso!");
 

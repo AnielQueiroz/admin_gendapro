@@ -5,7 +5,7 @@ import { logout } from "@/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
-  userName?: string;
+  userName?: string | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ userName }) => {
@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ userName }) => {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white shadow-md lg:px-8">
+    <header className="flex items-center justify-between p-4 shadow-md lg:px-8">
       <h1 className="text-xl font-bold">GendaPro</h1>
       <div className="flex items-center space-x-4">
         <span className="text-gray-600 hidden lg:inline">{userName}</span>

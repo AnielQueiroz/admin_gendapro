@@ -1,4 +1,5 @@
 body {
-    background-color: #f3f4f6; /* Cor de fundo suave */
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(52,48,48,0.8071603641456583) 63%, rgba(213,213,213,1) 100%);
 }
   
