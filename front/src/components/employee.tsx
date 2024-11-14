@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
 import { Input } from './ui/input';
 import DeleteSomething from './delete-something';
+import BtnSearchLen from './btn-search-len';
 
 const mockEmployers = [
   { id: 1, name: 'Fulano', email: 'fulano@email.com', phone: '123456789', role: 'Desenvolvedor' },
@@ -101,8 +102,18 @@ const Employers: React.FC = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <div className="flex justify-between items-center mb-6">
-                <Button
+            {/* Header com botao, busca e total de clientes */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-2 mb-4">
+                {/* Botao de criar cliente e campo de busca */}
+                {/* <BtnSearchLen
+                    btnLabel="Criar colaborador"
+                    btnIcon={<FiUserPlus />}
+                    btnAction={() => navigate("/admin/employee/create")}
+                    searchValue={globalFilter ?? ""}
+                    onSearchChange={setGlobalFilter}
+                /> */}
+
+                {/* <Button
                     className='flex items-center gap-2'
                     onClick={() => navigate("/admin/employee/create")}
                 >
@@ -110,7 +121,7 @@ const Employers: React.FC = () => {
                     Criar colaborador
                 </Button>
 
-                {/* Campo de Busca */}
+                Campo de Busca
                 <div className="flex items-center gap-2">
                     <Input
                         placeholder="Buscar colaborador..."
@@ -118,7 +129,7 @@ const Employers: React.FC = () => {
                         onChange={(e) => setGlobalFilter(e.target.value)}
                         className="flex-grow"
                     />
-                </div>    
+                </div>     */}
             </div>
 
             {/* Tabela */}
