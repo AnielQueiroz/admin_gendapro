@@ -1,6 +1,7 @@
 import LoginScreen from "@/components/login-screen";
 import NotFoundScreen from "@/components/not-founded-screen";
 import ProtectedRoute from "@/middlewares/protect-route";
+import Clients from "@/pages/Clients";
 import Employees from "@/pages/Employess";
 import Home from "@/pages/Home";
 import Services from "@/pages/Services";
@@ -43,6 +44,14 @@ export const protectedRoutes = [
         element: (
             <ProtectedRoute>
                 <Employees />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/operational/clients",
+        element: (
+            <ProtectedRoute>
+                <Clients />
             </ProtectedRoute>
         )
     }

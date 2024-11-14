@@ -52,6 +52,11 @@ const Home = () => {
                 <div className="lg:w-1/3">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Resumo do Dia</h2>
                     <SummaryCard />
+
+                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Resumo do Dia</h2>
+                    <div className="p-6 bg-white rounded-lg shadow-md lg:mb-4 lg:max-w-sm">
+                        <p>Futuro calendario</p>
+                    </div>
                 </div>
                 <div className="lg:w-2/3">
                     <div className="lg:w-full mt-4 lg:mt-0">
