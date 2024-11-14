@@ -1,4 +1,5 @@
 import { FiHome, FiCalendar, FiUser, FiSettings, FiTool, FiMonitor, FiKey, FiUsers } from "react-icons/fi";
+import { GrUserWorker } from "react-icons/gr"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import SubMenu from "./sub-menu";
@@ -23,6 +24,14 @@ const Sidebar = () => {
             <span>Home</span>
           </button>
         </li>
+        <SubMenu
+          title="Operacional"
+          icon={<GrUserWorker className="mr-3" />}
+          navigate={navigate}
+          items={[
+            { icon: <FiUsers className="mr-3" />, label: "Clientes", path: "/operational/clients"}
+          ]}
+        />
         <li>
           <button
             className="flex items-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
@@ -66,7 +75,7 @@ const Sidebar = () => {
               icon={<FiMonitor className="mr-3" />}
               navigate={navigate}
               items={[
-                { icon: <FiUsers className="mr-3" />, label: "Colaboradores", path: "/admin/employees" },
+                { icon: <GrUserWorker className="mr-3" />, label: "Colaboradores", path: "/admin/employees" },
                 { icon: <FiKey className="mr-3" />, label: "Permissões", path: "/admin/permissions" },
               ]}
             />
