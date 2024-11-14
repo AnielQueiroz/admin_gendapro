@@ -1,6 +1,7 @@
 import LoginScreen from "@/components/login-screen";
 import NotFoundScreen from "@/components/not-founded-screen";
 import ProtectedRoute from "@/middlewares/protect-route";
+import Employees from "@/pages/Employess";
 import Home from "@/pages/Home";
 import Services from "@/pages/Services";
 import { Navigate } from "react-router-dom";
@@ -34,6 +35,14 @@ export const protectedRoutes = [
         element: (
             <ProtectedRoute>
                 <Services />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/admin/employees",
+        element: (
+            <ProtectedRoute>
+                <Employees />
             </ProtectedRoute>
         )
     }
