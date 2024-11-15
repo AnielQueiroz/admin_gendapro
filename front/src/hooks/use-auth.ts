@@ -6,7 +6,7 @@ export const useAuth = () => {
     const isAuthenticated = useSelector(
         (state: RootState) => state.auth.isAuthenticated
     );
-    const user = useSelector((state: RootState) => state.auth.user);
+    const employee = useSelector((state: RootState) => state.auth.employee);
 
-    return { isAuthenticated, user};
+    return { isAuthenticated, employee };
 }
