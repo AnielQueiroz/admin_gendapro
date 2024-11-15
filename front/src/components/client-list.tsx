@@ -8,7 +8,14 @@ import DeleteSomething from './delete-something';
 import { useNavigate } from 'react-router-dom';
 import BtnSearchLen from './btn-search-len';
 
-const clients = [
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+const clients: Client[] = [
   {
     id: 1,
     name: "Lucas Silva",
@@ -105,21 +112,15 @@ const ClientList: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Header com botao, busca e total de clientes */}
-      <div className='flex flex-col md:flex-row justify-between items-center gap-2 mb-4'>
-        {/* Botao de criar cliente e campo de busca */}
-        <BtnSearchLen
-          btnLabel="Criar cliente"
-          btnIcon={<FiUserPlus />}
-          btnAction={() => navigate("/operational/clients/create")}
-          searchValue={search}
-          onSearchChange={setSearch}
-        />
-
-        {/* Mostrador de total de clientes */}
-        <div className='text-gray-600 text-sm mt-2 md:mt-0'>
-          Total de clientes: <span className="font-semibold">{filteredClients.length}</span>
-        </div>
-      </div>
+      <BtnSearchLen
+        btnLabel="Criar cliente"
+        btnIcon={<FiUserPlus />}
+        btnAction={() => navigate("/operational/clients/create")}
+        searchValue={search}
+        onSearchChange={setSearch}
+        totalOf="Clientes"
+        total={filteredClients.length}
+      />
 
       {/* Grid de cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

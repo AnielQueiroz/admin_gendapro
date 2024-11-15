@@ -103,34 +103,15 @@ const Employers: React.FC = () => {
     return (
         <div className="container mx-auto p-4">
             {/* Header com botao, busca e total de clientes */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-2 mb-4">
-                {/* Botao de criar cliente e campo de busca */}
-                {/* <BtnSearchLen
-                    btnLabel="Criar colaborador"
-                    btnIcon={<FiUserPlus />}
-                    btnAction={() => navigate("/admin/employee/create")}
-                    searchValue={globalFilter ?? ""}
-                    onSearchChange={setGlobalFilter}
-                /> */}
-
-                {/* <Button
-                    className='flex items-center gap-2'
-                    onClick={() => navigate("/admin/employee/create")}
-                >
-                    <FiUserPlus />
-                    Criar colaborador
-                </Button>
-
-                Campo de Busca
-                <div className="flex items-center gap-2">
-                    <Input
-                        placeholder="Buscar colaborador..."
-                        value={globalFilter ?? ""}
-                        onChange={(e) => setGlobalFilter(e.target.value)}
-                        className="flex-grow"
-                    />
-                </div>     */}
-            </div>
+            <BtnSearchLen
+                btnLabel="Criar colaborador"
+                btnIcon={<FiUserPlus />}
+                btnAction={() => navigate("/admin/employee/create")}
+                searchValue={globalFilter ?? ""}
+                onSearchChange={setGlobalFilter}
+                totalOf="Colaboradores"
+                total={employers.length}
+            />
 
             {/* Tabela */}
             {/* <div className="overflow-auto border rounded-lg shadow"> */}

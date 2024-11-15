@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Label } from "./ui/label";
 import * as Yup from "yup";
 import DeleteSomething from "./delete-something";
+import BtnSearchLen from "./btn-search-len";
 
 interface Service {
     id: number;
@@ -45,6 +46,7 @@ const ServicesCard = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedService, setSelectedService] = useState<Service | null>(null);
+    const [search, setSearch] = useState("");
     
     // Estados para controlar os campos do form
     const [name, setName] = useState('');
@@ -59,6 +61,8 @@ const ServicesCard = () => {
         price: Yup.string().required("O preço do serviço é obrigatório"),
         imageUrl: Yup.string().required("A imagem do serviço é obrigatória"),
     });
+
+    const filteredServices = services.filter((service) => service.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
 
     const formatCurrencyBRL = (value: string) => {
         const numericValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
@@ -142,13 +146,18 @@ const ServicesCard = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <Button title="Novo serviço" className="mb-6" onClick={handleCreateNew} variant="default">
-                <FiPlus />
-                Criar serviço
-            </Button>
+            <BtnSearchLen
+                btnLabel="Criar serviço"
+                btnIcon={<FiPlus />}
+                btnAction={() => handleCreateNew()}
+                searchValue={search}
+                onSearchChange={setSearch}
+                totalOf="Serviços"
+                total={filteredServices.length}
+            />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service) => (
+                {filteredServices.map((service) => (
                     <Card key={service.id}>
                         <img src={service.imageUrl} alt={service.name} className="w-full h-48 object-cover" />
                         <CardHeader>
