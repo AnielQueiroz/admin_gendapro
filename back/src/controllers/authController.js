@@ -36,8 +36,12 @@ const login = async (req, res) => {
         name: true,
         email: true,
         password: true,
-        barbershopId: true,
-        roleId: true,
+        barbershop: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         role: {
           select: {
             id: true,
