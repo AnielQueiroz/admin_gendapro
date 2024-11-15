@@ -1,6 +1,7 @@
 const { db } = require("../lib/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { permission } = require("process");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -38,6 +39,17 @@ const login = async (req, res) => {
         password: true,
         barbershopId: true,
         roleId: true,
+        role: {
+          select: {
+            id: true,
+            name: true,
+            permissions: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
