@@ -24,14 +24,23 @@ const Sidebar = () => {
             <span>Home</span>
           </button>
         </li>
-        <SubMenu
+        <li>
+          <button
+            className="flex items-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            onClick={() => navigate("/operational/clients")}
+          >
+            <FiUsers className="mr-3" />
+            <span>Clientes</span>
+          </button>
+        </li>
+        {/* <SubMenu
           title="Operacional"
           icon={<GrUserWorker className="mr-3" />}
           navigate={navigate}
           items={[
             { icon: <FiUsers className="mr-3" />, label: "Clientes", path: "/operational/clients"}
           ]}
-        />
+        /> */}
         <li>
           <button
             className="flex items-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
@@ -50,7 +59,7 @@ const Sidebar = () => {
               <span>Serviços</span>
           </button>
         </li>
-        <li>
+        {/* <li>
           <button
             className="flex items-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
             onClick={() => navigate("/profile")}
@@ -58,8 +67,8 @@ const Sidebar = () => {
             <FiUser className="mr-3" />
             <span>Perfil</span>
           </button>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <button
             className="flex items-center w-full p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
             onClick={() => navigate("/settings")}
@@ -67,7 +76,7 @@ const Sidebar = () => {
             <FiSettings className="mr-3" />
             <span>Configurações</span>
           </button>
-        </li>
+        </li> */}
         {/* Exibe o menu administrativo apenas se o usuário tiver permissão */}
         {hasPermission && (
             <SubMenu

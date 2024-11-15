@@ -20,7 +20,10 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
-  		}
+  		},
+		screens: {
+			'smax': {'max': '767px'}
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

@@ -9,7 +9,7 @@ const Clients = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        document.title = "GendaPro | Colaboradores";
+        document.title = "GendaPro | Clientes";
     }, []);
 
     return (
