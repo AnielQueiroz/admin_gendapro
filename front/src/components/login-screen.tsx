@@ -26,7 +26,11 @@ const LoginScreen = () => {
     password: Yup.string().required("Senha obrigatória"),
   });
 
-  const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -34,26 +38,37 @@ const LoginScreen = () => {
     setIsLoading(true);
 
     try {
-      // const response = await loginService(data.email, data.password);
+      const response = await loginService(data.email, data.password);
+      if (!response.success) {
+        toast.error(response.data.message);
+        return;
+      }
 
-      // console.log(response);
-
-      // if (!response.success) {
-      //   toast.error(response.data.message);
-      //   return;
-      // }
-
-      const userData = {
-        name: "Aniel",
-        permissions: ["admin", "manage-users", "view-reports"],
-        token: 'token',
+      const employeeData = {
+        employee: response.data.professional,
+        token: response.data.token,
       };
 
-      // Armazenar o token no redux
-      dispatch(login(userData));
+      // const employeeData = {
+      //   employee: {
+      //     id: "1",
+      //     name: "João",
+      //     email: "joao@example.com",
+      //     barbershop: {
+      //       id: "barber-123",
+      //       name: "Barbearia do João",
+      //     },
+      //     role: {
+      //       id: "role-1",
+      //       name: "Admin",
+      //       permissions: [{ name: "READ" }, { name: "WRITE" }],
+      //     },
+      //   },
+      //   token: "seu-token-aqui",
+      // };
 
-      // Persistir os dados no localStorage
-      localStorage.setItem('auth', JSON.stringify(userData));
+      // Armazenar o token no redux
+      dispatch(login(employeeData));
 
       toast.success("Login realizado com sucesso!");
 
