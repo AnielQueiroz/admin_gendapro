@@ -21,37 +21,14 @@ import { getServices } from "@/features/services/get-services";
 import { useAuth } from "@/hooks/use-auth";
 import { logout } from "@/features/auth/authSlice";
 
-interface Service {
-  id: number;
-  name: string;
+interface Services {
+  barbershopId: string;
   description: string;
-  price: string;
+  id: string;
   imageUrl: string;
+  name: string;
+  price: number;
 }
-
-const services: Service[] = [
-  {
-    id: 1,
-    name: "Corte de Cabelo",
-    description: "Corte de cabelo moderno para todos os estilos.",
-    price: "R$ 50,00",
-    imageUrl: "https://via.placeholder.com/150",
-  },
-  {
-    id: 2,
-    name: "Barba",
-    description: "Barba bem feita, com acabamento impecável.",
-    price: "R$ 30,00",
-    imageUrl: "https://via.placeholder.com/150",
-  },
-  {
-    id: 3,
-    name: "Sobrancelha",
-    description: "Design de sobrancelha personalizado.",
-    price: "R$ 25,00",
-    imageUrl: "https://via.placeholder.com/150",
-  },
-];
 
 const ServicesCard = () => {
   const dispatch = useDispatch();
@@ -62,20 +39,24 @@ const ServicesCard = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedService, setSelectedService] = useState<Services | null>(null);
   const [search, setSearch] = useState("");
+  const [services, setServices] = useState<Services[]>([]);
 
   // Estados para controlar os campos do form
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const fetchServices = useCallback(async () => {
     try {
       const response = await getServices(establishmentId);
-      console.log(response);
+      if (!response.success) {
+        toast.error(response.data.message);
+      }
+      setServices(response.data.services);
     } catch (error) {
       console.error("Erro ao buscar serviços:", error);
       toast.error("Erro ao buscar serviços. Tente novamente mais tarde.");
@@ -107,29 +88,29 @@ const ServicesCard = () => {
     service.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
   );
 
-  const formatCurrencyBRL = (value: string) => {
-    const numericValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
-    const formattedValue = new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(Number.parseFloat(numericValue) / 100);
+  // const formatCurrencyBRL = (value: string) => {
+  //   const numericValue = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+  //   const formattedValue = new Intl.NumberFormat("pt-BR", {
+  //     style: "currency",
+  //     currency: "BRL",
+  //   }).format(Number.parseFloat(numericValue) / 100);
 
-    if (formattedValue === "R$ NaN") return "R$ 0,00";
+  //   if (formattedValue === "R$NaN") return "R$ 0,00";
 
-    return formattedValue;
-  };
+  //   return formattedValue;
+  // };
 
   const handleCreateNew = () => {
     setSelectedService(null);
     setName("");
     setDescription("");
-    setPrice("");
+    setPrice(0);
     setImageUrl("");
     setErrors({});
     setOpenDialog(true);
   };
 
-  const handleEditClick = (service: Service) => {
+  const handleEditClick = (service: Services) => {
     setSelectedService(service);
     setName(service.name);
     setDescription(service.description);
@@ -144,7 +125,7 @@ const ServicesCard = () => {
     setSelectedService(null);
   };
 
-  const handleDeleteClick = (service: Service) => {
+  const handleDeleteClick = (service: Services) => {
     setSelectedService(service);
     setDeleteDialogOpen(true);
   };
@@ -211,7 +192,7 @@ const ServicesCard = () => {
             </CardHeader>
             <CardContent>
               <p>{service.description}</p>
-              <p className="text-gray-600 mt-2 font-bold">{service.price}</p>
+              <p className="text-gray-600 mt-2 font-bold">R$ {service.price}</p>
             </CardContent>
             <CardFooter className="flex gap-2 justify-end">
               <Button
@@ -280,14 +261,14 @@ const ServicesCard = () => {
                 type="text"
                 placeholder="Preço do serviço"
                 value={price}
-                onChange={(e) => setPrice(formatCurrencyBRL(e.target.value))}
+                onChange={(e) => setPrice(Number.parseFloat(e.target.value))}
                 error={!!errors.price}
                 errorMessage={errors.price}
               />
             </div>
             <div>
               <Label className="mt-4" htmlFor="imgServico">
-                Image do serviço
+                Imagem do serviço
               </Label>
               <Input
                 id="imgServico"
