@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -15,6 +15,11 @@ import { Label } from "./ui/label";
 import * as Yup from "yup";
 import DeleteSomething from "./delete-something";
 import BtnSearchLen from "./btn-search-len";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getServices } from "@/features/services/get-services";
+import { useAuth } from "@/hooks/use-auth";
+import { logout } from "@/features/auth/authSlice";
 
 interface Service {
   id: number;
@@ -49,6 +54,12 @@ const services: Service[] = [
 ];
 
 const ServicesCard = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { employee } = useAuth();
+  const establishmentId = employee?.barbershop.id ?? "";
+
   const [openDialog, setOpenDialog] = useState(false);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -60,6 +71,26 @@ const ServicesCard = () => {
   const [price, setPrice] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const fetchServices = useCallback(async () => {
+    try {
+      const response = await getServices(establishmentId);
+      console.log(response);
+    } catch (error) {
+      console.error("Erro ao buscar serviços:", error);
+      toast.error("Erro ao buscar serviços. Tente novamente mais tarde.");
+    }
+  }, [establishmentId]);
+
+  useEffect(() => {
+    if (establishmentId) fetchServices();
+    else {
+      toast.error("Ops, algo deu errado, faça login novamente!");
+      dispatch(logout());
+      navigate("/");
+      return;
+    }
+  }, [fetchServices, dispatch, navigate, establishmentId]);
 
   const serviceSchema = Yup.object().shape({
     name: Yup.string()
