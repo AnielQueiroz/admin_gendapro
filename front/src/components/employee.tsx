@@ -51,7 +51,7 @@ const Employers: React.FC = () => {
   const navigate = useNavigate();
 
   const { employee } = useAuth();
-  const establishmentId = employee?.barbershop.id;
+  const establishmentId = employee?.barbershop.id ?? "";
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -59,13 +59,7 @@ const Employers: React.FC = () => {
     useState<SelectedEmployerProps | null>(null);
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const fetchEmployers = useCallback(async () => {
-    if (!establishmentId) {
-      toast.error("Ops, algo deu errado, faça login novamente!");
-      dispatch(logout());
-      navigate("/");
-      return;
-    }
+  const fetchEmployees = useCallback(async () => {
     try {
       const response = await getEmployees(establishmentId);
       if (!response.success) {
@@ -77,11 +71,17 @@ const Employers: React.FC = () => {
       console.error("Erro ao buscar colaboradores:", error);
       toast.error("Erro ao buscar colaboradores. Tente novamente mais tarde.");
     }
-  }, [establishmentId, dispatch, navigate]);
+  }, [establishmentId]);
 
   useEffect(() => {
-    if (establishmentId) fetchEmployers();
-  }, [fetchEmployers, establishmentId]);
+    if (establishmentId) fetchEmployees();
+    else {
+      toast.error("Ops, algo deu errado, faça login novamente!");
+      dispatch(logout());
+      navigate("/");
+      return;
+    }
+  }, [fetchEmployees, establishmentId, navigate, dispatch]);
 
   // Colunas da tabela
   const columns = useMemo(
